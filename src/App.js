@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import data from './data.json'
 
-function App() {
+const App = () => {
+
+  const [jsonData, setJsonData] = useState(data)
+
+  const handleChange = (e, id) => {
+    const updateData = jsonData.map((element) =>
+      element.id === id ? { ...element, info: e.target.value } : element
+    )
+    setJsonData(updateData)
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      {
+        jsonData.map(data => {
+          return (
+            <div key={data.id}>
+              <label>Enter New Data: </label>
+              <input type='text' value={data.info} onChange={(e) => handleChange(e, data.id)} />
+              <h4>{data.info}</h4>
+            </div>
+          )
+        }
+        )
+      }
+    </>
+  )
 }
 
-export default App;
+export default App
